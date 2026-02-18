@@ -65,18 +65,28 @@ async function vote(gender){
   const confirmVote = confirm(`Are you sure it's a ${gender.toUpperCase()}?`);
   if(!confirmVote) return;
 
-  await fetch("/vote"
-,{
+  await fetch("/vote",{
     method:"POST",
     headers:{ "Content-Type":"application/json"},
     body: JSON.stringify({name, gender})
   });
 
-  loadResults();
+  // THANK YOU MESSAGE
+  document.querySelector(".container").innerHTML = `
+    <img src="/baby_2102805.png" width="150">
+    <h2>🎉 Thank You ${name}!</h2>
+    <h3>Your vote has been recorded ❤️</h3>
+    <p>Enjoy the baby shower 👶</p>
+    <br>
+    <button onclick="window.location.href='results.html'" 
+    style="background:black;padding:15px;color:white;border:none;border-radius:10px">
+    View Live Results 📊
+    </button>
+  `;
 }
 
 async function loadResults(){
-  const res = await fetchfetch("/results");
+  const res = await fetch("/results");
   const data = await res.json();
 
   document.getElementById("result").innerHTML = `
@@ -87,6 +97,7 @@ async function loadResults(){
 
 loadResults();
 </script>
+
 
 </body>
 </html>
