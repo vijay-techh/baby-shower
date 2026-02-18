@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vote</title>
+
+<style>
+body{
+  font-family: Arial;
+  text-align:center;
+  background:#fff5f7;
+  padding:30px;
+}
+.container{
+  max-width:400px;
+  margin:auto;
+}
+img{width:150px;}
+
+button{
+  padding:15px;
+  width:70%;
+  margin:15px;
+  border:none;
+  font-size:20px;
+  color:white;
+  border-radius:12px;
+}
+.boy{ background:#2196f3; }
+.girl{ background:#ff69b4; }
+
+.result{
+  margin-top:30px;
+  font-size:22px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<img src="https://cdn-icons-png.flaticon.com/512/742/742751.png">
+<h2>Baby Prediction 👶</h2>
+<h3 id="welcome"></h3>
+
+<button class="boy" onclick="vote('boy')">Boy 💙</button>
+<button class="girl" onclick="vote('girl')">Girl 💖</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+const name = localStorage.getItem("username");
+document.getElementById("welcome").innerText = "Hi " + name;
+
+async function vote(gender){
+
+  if(!name){
+    alert("Enter name first");
+    window.location.href="index.html";
+    return;
+  }
+
+  const confirmVote = confirm(`Are you sure it's a ${gender.toUpperCase()}?`);
+  if(!confirmVote) return;
+
+  await fetch("http://localhost:5000/vote",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json"},
+    body: JSON.stringify({name, gender})
+  });
+
+  loadResults();
+}
+
+async function loadResults(){
+  const res = await fetch("http://localhost:5000/results");
+  const data = await res.json();
+
+  document.getElementById("result").innerHTML = `
+  💙 Boy: ${data.boy}% <br>
+  💖 Girl: ${data.girl}%
+  `;
+}
+
+loadResults();
+</script>
+
+</body>
+</html>
