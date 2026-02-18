@@ -87,9 +87,8 @@ app.get("/results", async (req, res) => {
 });
 
 
-app.use(express.static(__dirname));
+module.exports = app;
 
-app.listen(5000, () => {
-  console.log("Server running on 5000");
-  open("http://localhost:5000");
-});
+if (require.main === module) {
+  app.listen(5000, () => console.log("Local server running"));
+}
