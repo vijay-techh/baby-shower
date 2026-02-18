@@ -1,23 +1,18 @@
 {
   "version": 2,
+
   "builds": [
-    {
-      "src": "server.js",
-      "use": "@vercel/node"
-    }
+    { "src": "server.js", "use": "@vercel/node" },
+    { "src": "*.html", "use": "@vercel/static" }
   ],
+
   "routes": [
-    {
-      "src": "/vote",
-      "dest": "/server.js"
-    },
-    {
-      "src": "/results",
-      "dest": "/server.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+    { "src": "/vote", "dest": "/server.js" },
+    { "src": "/results", "dest": "/server.js" },
+
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/vote.html", "dest": "/vote.html" },
+
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }

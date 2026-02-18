@@ -65,12 +65,12 @@ async function vote(gender){
   const confirmVote = confirm(`Are you sure it's a ${gender.toUpperCase()}?`);
   if(!confirmVote) return;
 
-  await fetch("/vote")
+  await fetch("/vote"
 ,{
     method:"POST",
     headers:{ "Content-Type":"application/json"},
     body: JSON.stringify({name, gender})
-  };
+  });
 
   loadResults();
 }
