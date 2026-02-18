@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Results 👶</title>
+
+<style>
+body{
+  font-family: Arial;
+  text-align:center;
+  background:black;
+  color:white;
+  padding:40px;
+}
+
+h1{
+  font-size:40px;
+}
+
+.box{
+  margin-top:40px;
+  font-size:35px;
+}
+
+.boy{ color:#4da6ff; }
+.girl{ color:#ff4da6; }
+</style>
+</head>
+
+<body>
+
+<h1>👶 Baby Prediction Results</h1>
+
+<div class="box">
+  <div class="boy">💙 Boy: <span id="boy">0</span>%</div>
+  <br>
+  <div class="girl">💖 Girl: <span id="girl">0</span>%</div>
+</div>
+
+<script>
+async function loadResults(){
+  try{
+    const res = await fetch("/results");
+    const data = await res.json();
+
+    document.getElementById("boy").innerText = data.boy;
+    document.getElementById("girl").innerText = data.girl;
+  }catch(e){
+    console.log(e);
+  }
+}
+
+// refresh every 2 sec
+setInterval(loadResults,2000);
+loadResults();
+</script>
+
+</body>
+</html>
