@@ -3,7 +3,7 @@
   "builds": [
     { "src": "server.js", "use": "@vercel/node" },
     { "src": "*.html", "use": "@vercel/static" },
-    { "src": "*.png", "use": "@vercel/static" }
+    { "src": "*.jpeg", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/vote", "dest": "/server.js" },
