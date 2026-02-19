@@ -40,7 +40,8 @@ h1{
 <script>
 async function loadResults(){
   try{
-    const res = await fetch("/results");
+    const res = await fetch("https://babyvote-api.onrender.com/results")
+;
     const data = await res.json();
 
     document.getElementById("boy").innerText = data.boy;

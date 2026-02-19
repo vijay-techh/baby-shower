@@ -106,18 +106,19 @@ if(name){
 // vote
 async function vote(gender){
 
-  await fetch("/vote",{
-    method:"POST",
-    headers:{ "Content-Type":"application/json"},
-    body: JSON.stringify({name, gender})
-  });
+await ("https://babyvote-api.onrender.com/vote", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ name, gender })
+})
 
   showFinalScreen();
 }
 
 async function showFinalScreen(){
 
-  const res = await fetch("/results");
+  const res = await fetch("https://babyvote-api.onrender.com/results")
+;
   const percent = await res.json();
 
   const all = await fetch("https://babyvote-api.onrender.com/allvotes")
@@ -157,7 +158,8 @@ async function showFinalScreen(){
 // load results
 // async function loadResults(){
 //   try{
-//     const res = await fetch("/results");
+//     const res = await fetch("https://babyvote-api.onrender.com/results")
+;
 //     const data = await res.json();
 
 //     document.getElementById("result").innerHTML = `
