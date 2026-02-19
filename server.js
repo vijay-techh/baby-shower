@@ -111,13 +111,13 @@ app.get("/allvotes", async (req, res) => {
 
 
 module.exports = app;
-app.listen(5000, () => {
-  console.log("🚀 Server running on http://localhost:5000");
+// app.listen(5000, () => {
+//   console.log("🚀 Server running on http://localhost:5000");
   
-  // auto open browser
-  open("http://localhost:5000");
-});
+//   // auto open browser
+//   open("http://localhost:5000");
+// });
 
-if (require.main === module) {
-  app.listen(5000, () => console.log("Local server running"));
-}
+// if (require.main === module) {
+//   app.listen(5000, () => console.log("Local server running"));
+// }
