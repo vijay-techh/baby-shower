@@ -154,18 +154,18 @@ async function showFinalScreen(){
 
 
 // load results
-async function loadResults(){
-  try{
-    const res = await fetch("/results");
-    const data = await res.json();
+// async function loadResults(){
+//   try{
+//     const res = await fetch("/results");
+//     const data = await res.json();
 
-    document.getElementById("result").innerHTML = `
-    💙 Boy: ${data.boy}% &nbsp;&nbsp; | &nbsp;&nbsp; 💖 Girl: ${data.girl}%
-    `;
-  }catch(err){
-    document.getElementById("result").innerText="Loading...";
-  }
-}
+//     document.getElementById("result").innerHTML = `
+//     💙 Boy: ${data.boy}% &nbsp;&nbsp; | &nbsp;&nbsp; 💖 Girl: ${data.girl}%
+//     `;
+//   }catch(err){
+//     document.getElementById("result").innerText="Loading...";
+//   }
+// }
 
 setInterval(loadResults,2000);
 loadResults();
