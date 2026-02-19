@@ -2,45 +2,65 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Baby Vote 👶</title>
+<title>Baby Shower 👶</title>
 
 <style>
 body{
   font-family: Arial;
   text-align:center;
   background:#fff5f7;
-  padding:30px;
+  padding:25px;
 }
 
 .container{
-  max-width:400px;
+  max-width:420px;
   margin:auto;
 }
 
-img{
-  width:150px;
-  margin-top:20px;
-}
-
-h2{
+.topname{
+  font-size:22px;
+  font-weight:bold;
   margin-top:10px;
 }
 
-button{
-  padding:15px;
-  width:70%;
-  margin:15px;
-  border:none;
-  font-size:20px;
-  color:white;
-  border-radius:12px;
+.title{
+  font-size:32px;
+  margin:10px 0 20px 0;
 }
 
-.boy{ background:#2196f3; }
-.girl{ background:#ff69b4; }
+.vote-grid{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  margin-top:20px;
+}
+
+.vote-box{
+  cursor:pointer;
+}
+
+.vote-box img{
+  width:150px;
+  height:150px;
+  object-fit:cover;
+  border-radius:15px;
+  border:4px solid transparent;
+  transition:.2s;
+}
+
+.vote-box img:hover{
+  transform:scale(1.05);
+  border-color:black;
+}
+
+.label{
+  font-size:20px;
+  margin-top:8px;
+  font-weight:bold;
+}
 
 .result{
-  margin-top:25px;
+  margin-top:30px;
   font-size:22px;
   font-weight:bold;
 }
@@ -51,33 +71,40 @@ button{
 
 <div class="container">
 
-<img src="/baby_2102805.png" alt="baby">
-<h2>Baby Prediction 👶</h2>
-<h3 id="welcome"></h3>
+<div class="topname" id="welcome"></div>
+<div class="title">Baby Shower 👶</div>
 
-<button class="boy" onclick="vote('boy')">Boy 💙</button>
-<button class="girl" onclick="vote('girl')">Girl 💖</button>
+<div class="vote-grid">
 
-<div class="result" id="result">Loading results...</div>
+  <!-- BOY -->
+  <div class="vote-box" onclick="vote('boy')">
+    <img src="/boy.jpeg">
+    <div class="label">Baby Boy 💙</div>
+  </div>
+
+  <!-- GIRL -->
+  <div class="vote-box" onclick="vote('girl')">
+    <img src="/girl.jpeg">
+    <div class="label">Baby Girl 💖</div>
+  </div>
+
+</div>
+
 
 </div>
 
 <script>
-// get stored name
+// get name
 const name = localStorage.getItem("username");
 
-// show welcome
 if(name){
   document.getElementById("welcome").innerText = "Hi " + name + " 👋";
 }else{
   window.location.href="index.html";
 }
 
-// vote function
+// vote
 async function vote(gender){
-
-  const confirmVote = confirm(`Are you sure it's a ${gender.toUpperCase()}?`);
-  if(!confirmVote) return;
 
   await fetch("/vote",{
     method:"POST",
@@ -85,39 +112,63 @@ async function vote(gender){
     body: JSON.stringify({name, gender})
   });
 
-  // show thank you screen
+  showFinalScreen();
+}
+
+async function showFinalScreen(){
+
+  const res = await fetch("/results");
+  const percent = await res.json();
+
+  const all = await fetch("/allvotes");
+  const votes = await all.json();
+
+  let tableRows = votes.map(v => `
+      <tr>
+        <td style="padding:8px;">${v.name}</td>
+        <td style="padding:8px;">${v.gender.toUpperCase()}</td>
+      </tr>
+  `).join("");
+
   document.querySelector(".container").innerHTML = `
-    <img src="/baby_2102805.png" width="150">
+    <img src="/pic.jpeg" width="170" style="border-radius:15px">
     <h2>🎉 Thank You ${name}!</h2>
-    <h3>Your vote has been recorded ❤️</h3>
     <p>Enjoy the baby shower 👶</p>
-    <br>
-    <button onclick="window.location.href='results.html'" 
-    style="background:black;padding:15px;color:white;border:none;border-radius:10px">
-    View Live Results 📊
-    </button>
+
+    <div style="margin-top:20px;font-size:22px;font-weight:bold;">
+      💙 Boy: ${percent.boy}% &nbsp;&nbsp; | &nbsp;&nbsp;
+      💖 Girl: ${percent.girl}%
+    </div>
+
+    <h3 style="margin-top:25px;">Guest Predictions</h3>
+
+    <table style="width:100%;margin-top:10px;border-collapse:collapse;">
+      <tr style="background:#f2f2f2;">
+     a   <th style="padding:8px;">Name</th>
+        <th style="padding:8px;">Guess</th>
+      </tr>
+      ${tableRows}
+    </table>
   `;
 }
 
-// load live results
+
+// load results
 async function loadResults(){
   try{
     const res = await fetch("/results");
     const data = await res.json();
 
     document.getElementById("result").innerHTML = `
-    💙 Boy: ${data.boy}% <br>
-    💖 Girl: ${data.girl}%
+    💙 Boy: ${data.boy}% &nbsp;&nbsp; | &nbsp;&nbsp; 💖 Girl: ${data.girl}%
     `;
   }catch(err){
     document.getElementById("result").innerText="Loading...";
   }
 }
 
-// auto refresh every 2 sec
 setInterval(loadResults,2000);
 loadResults();
-
 </script>
 
 </body>
