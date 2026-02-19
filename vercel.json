@@ -3,15 +3,16 @@
   "builds": [
     { "src": "server.js", "use": "@vercel/node" },
     { "src": "*.html", "use": "@vercel/static" },
-    { "src": "*.jpeg", "use": "@vercel/static" }
+    { "src": "*.jpeg", "use": "@vercel/static" },
+    { "src": "*.png", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/vote", "dest": "/server.js" },
     { "src": "/results", "dest": "/server.js" },
+    { "src": "/allvotes", "dest": "/server.js" },
 
     { "src": "/", "dest": "/index.html" },
     { "src": "/vote.html", "dest": "/vote.html" },
-    { "src": "/results.html", "dest": "/results.html" },
 
     { "src": "/(.*)", "dest": "/$1" }
   ]

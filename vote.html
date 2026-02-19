@@ -117,8 +117,6 @@ async function vote(gender){
 
 async function showFinalScreen(){
 
-  const res = await fetch("/results");
-  const percent = await res.json();
 
   const all = await fetch("/allvotes");
   const votes = await all.json();
