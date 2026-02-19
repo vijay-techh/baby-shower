@@ -120,7 +120,8 @@ async function showFinalScreen(){
   const res = await fetch("/results");
   const percent = await res.json();
 
-  const all = await fetch("/allvotes");
+  const all = await fetch("https://babyvote-api.onrender.com/allvotes")
+;
   const votes = await all.json();
 
   let tableRows = votes.map(v => `
