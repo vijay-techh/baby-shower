@@ -4,6 +4,8 @@ const path = require("path");
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+app.use(cors());
+
 const { Pool } = require("pg");
 
 const app = express();
