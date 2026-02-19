@@ -1,14 +1,15 @@
 const open = (...args) => import('open').then(m => m.default(...args));
 const path = require("path");
 
-require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-app.use(cors());
+
 
 const { Pool } = require("pg");
 
 const app = express();
+app.use(cors());
+
 // serve html files
 app.use(express.static(__dirname));
 
