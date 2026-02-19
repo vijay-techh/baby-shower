@@ -106,23 +106,21 @@ if(name){
 // vote
 async function vote(gender){
 
-await ("https://baby-shower-ashen.vercel.app/vote", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ name, gender })
-})
+  await fetch("/vote",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json"},
+    body: JSON.stringify({name, gender})
+  });
 
   showFinalScreen();
 }
 
 async function showFinalScreen(){
 
-  const res = await fetch("https://baby-shower-ashen.vercel.app/results")
-;
+  const res = await fetch("/results");
   const percent = await res.json();
 
-  const all = await fetch("https://baby-shower-ashen.vercel.app/allvotes")
-;
+  const all = await fetch("/allvotes");
   const votes = await all.json();
 
   let tableRows = votes.map(v => `
@@ -156,22 +154,21 @@ async function showFinalScreen(){
 
 
 // load results
-// async function loadResults(){
-//   try{
-//     const res = await fetch("https://baby-shower-ashen.vercel.app/results")
-;
-//     const data = await res.json();
+async function loadResults(){
+  try{
+    const res = await fetch("/results");
+    const data = await res.json();
 
-//     document.getElementById("result").innerHTML = `
-//     💙 Boy: ${data.boy}% &nbsp;&nbsp; | &nbsp;&nbsp; 💖 Girl: ${data.girl}%
-//     `;
-//   }catch(err){
-//     document.getElementById("result").innerText="Loading...";
-//   }
-// }
+    document.getElementById("result").innerHTML = `
+    💙 Boy: ${data.boy}% &nbsp;&nbsp; | &nbsp;&nbsp; 💖 Girl: ${data.girl}%
+    `;
+  }catch(err){
+    document.getElementById("result").innerText="Loading...";
+  }
+}
 
-// setInterval(loadResults,2000);
-// loadResults();
+setInterval(loadResults,2000);
+loadResults();
 </script>
 
 </body>
