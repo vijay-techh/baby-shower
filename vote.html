@@ -117,7 +117,11 @@ async function vote(gender){
 
 async function showFinalScreen(){
 
+  // get percentage
+  const res = await fetch("/results");
+  const percent = await res.json();
 
+  // get all votes
   const all = await fetch("/allvotes");
   const votes = await all.json();
 
@@ -142,7 +146,7 @@ async function showFinalScreen(){
 
     <table style="width:100%;margin-top:10px;border-collapse:collapse;">
       <tr style="background:#f2f2f2;">
-     a   <th style="padding:8px;">Name</th>
+        <th style="padding:8px;">Name</th>
         <th style="padding:8px;">Guess</th>
       </tr>
       ${tableRows}
@@ -152,21 +156,21 @@ async function showFinalScreen(){
 
 
 // load results
-async function loadResults(){
-  try{
-    const res = await fetch("/results");
-    const data = await res.json();
+// async function loadResults(){
+//   try{
+//     const res = await fetch("/results");
+//     const data = await res.json();
 
-    document.getElementById("result").innerHTML = `
-    💙 Boy: ${data.boy}% &nbsp;&nbsp; | &nbsp;&nbsp; 💖 Girl: ${data.girl}%
-    `;
-  }catch(err){
-    document.getElementById("result").innerText="Loading...";
-  }
-}
+//     document.getElementById("result").innerHTML = `
+//     💙 Boy: ${data.boy}% &nbsp;&nbsp; | &nbsp;&nbsp; 💖 Girl: ${data.girl}%
+//     `;
+//   }catch(err){
+//     document.getElementById("result").innerText="Loading...";
+//   }
+// }
 
-setInterval(loadResults,2000);
-loadResults();
+// setInterval(loadResults,2000);
+// loadResults();
 </script>
 
 </body>
