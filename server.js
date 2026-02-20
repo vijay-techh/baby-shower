@@ -43,7 +43,6 @@ pool.query("SELECT current_database()", (err, res) => {
   console.log("CONNECTED DB:", res?.rows);
 });
 
-// submit vote
 app.post("/vote", async (req, res) => {
   try {
     const { name, gender } = req.body;
@@ -52,12 +51,24 @@ app.post("/vote", async (req, res) => {
       return res.status(400).json({ error: "Missing data" });
     }
 
+    // check if already voted
+    const check = await pool.query(
+      "SELECT * FROM votes WHERE LOWER(name)=LOWER($1)",
+      [name]
+    );
+
+    if (check.rows.length > 0) {
+      return res.json({ already: true });
+    }
+
+    // insert vote
     await pool.query(
       "INSERT INTO votes(name, gender) VALUES($1,$2)",
       [name, gender]
     );
 
-    res.json({ message: "Vote saved" });
+    res.json({ success: true });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "DB error" });
